@@ -36,7 +36,6 @@
         [HttpGet("{code}")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(CouponDto), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<CouponDto>> GetCouponByCodeAsync(string code)
         {
             _logger.LogInformation("----- Get coupon {CouponCode}", code);
@@ -62,7 +61,9 @@
 
             var couponDto = _mapper.Translate(coupon);
 
-            return Ok(couponDto);
+            // Add LogInformation call
+
+            return couponDto;
         }
     }
 }

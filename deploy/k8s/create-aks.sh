@@ -161,7 +161,5 @@ mv -f create-aks-exports.txt ~/clouddrive/aspnet-learn-temp/
 
 pushd ~/clouddrive/aspnet-learn-temp > /dev/null
 echo "${headingStyle}AKS and ACR Configuration values${defaultTextStyle}${newline}" > config.txt
-echo "CLUSTER_NAME: ${headingStyle}$eshopAksName${defaultTextStyle}" >> config.txt
-echo "CLUSTER_RESOURCE_GROUP: ${headingStyle}$eshopRg${defaultTextStyle}" >> config.txt
 echo "IP_ADDRESS: ${headingStyle}$eshopLbIp${defaultTextStyle}" >> config.txt
 popd  > /dev/null

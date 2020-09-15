@@ -83,6 +83,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Coupon", "Coupon", "{7183B377-4090-4EE9-85F9-1D8E0216F2B5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coupon.API.Tests", "tests\Services\Coupon\Coupon.API.Tests\Coupon.API.Tests.csproj", "{E94AAF90-B6A8-4410-9C0A-D1732585956B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A9227F5B-8BC8-4869-B1F7-C6F40F4252E4} = {A9227F5B-8BC8-4869-B1F7-C6F40F4252E4}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

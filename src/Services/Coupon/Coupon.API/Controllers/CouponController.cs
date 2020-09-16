@@ -1,7 +1,6 @@
 ﻿namespace Coupon.API.Controllers
 {
     using System;
-    using System.Data;
     using System.Net;
     using System.Threading.Tasks;
     using Coupon.API.Dtos;
@@ -43,21 +42,15 @@
             var result = _exceptionTrigger.Process(code);
 
             if (result.shouldFire)
-            {
                 throw new Exception($"Exception code received: {code}");
-            }
 
             if (result.configured)
-            {
                 return NotFound($"CONFIG: {result.message}");
-            }
 
             var coupon = await _couponRepository.FindCouponByCodeAsync(code);
 
             if (coupon is null || coupon.Consumed)
-            {
                 return NotFound(coupon == null ? "ERROR: The coupon doesn't exist" : "ERROR: The coupon has been redeemed already");
-            }
 
             var couponDto = _mapper.Translate(coupon);
 

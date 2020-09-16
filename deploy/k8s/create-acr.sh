@@ -139,7 +139,7 @@ mv -f create-idtag-exports.txt ~/clouddrive/aspnet-learn-temp/
 
 pushd ~/clouddrive/aspnet-learn-temp > /dev/null
 echo "REGISTRY_LOGIN_SERVER: ${headingStyle}$eshopRegistry${defaultTextStyle}" >> config.txt
-echo "REGISTRY_USERNAME: ${headingStyle}$eshopAcrUser${defaultTextStyle}" >> config.txt
 echo "REGISTRY_PASSWORD: ${headingStyle}$eshopAcrPassword${defaultTextStyle}" >> config.txt
+echo "REGISTRY_USERNAME: ${headingStyle}$eshopAcrUser${defaultTextStyle}" >> config.txt
 echo "${newline}" >> config.txt
 popd  > /dev/null

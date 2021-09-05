@@ -1,0 +1,35 @@
+name: eShop build
+
+on:
+  push:
+    paths:
+    - 'src/Services/Coupon/**'
+    - 'tests/Services/Coupon/**'
+    branches: [ main ]
+
+jobs:
+  build-and-push-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get code from the repository
+      uses: actions/checkout@v1
+      with:
+        ref: main
+
+    - name: Run unit tests
+      run: dotnet test tests/Services/Coupon/*.Tests/*.csproj
+      env:
+        DOTNET_CLI_TELEMETRY_OPTOUT: true
+        DOTNET_NOLOGO: true
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v1.1.0
+      with:
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+        registry: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        path: .
+        dockerfile: './src/Services/Coupon/Coupon.API/Dockerfile.acr'
+        repository: 'coupon.api'
+        tags: 'linux-latest'
+        push: true

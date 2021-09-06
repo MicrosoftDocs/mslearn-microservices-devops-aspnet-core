@@ -15,7 +15,7 @@
     [Route("api/v1/[controller]")]
     public class CouponController : ControllerBase
     {
-        private readonly ILogger<CouponController> _logger;
+        private readonly ILogger<CouponController> _logger;//logging
         private readonly ICouponRepository _couponRepository;
         private readonly IMapper<CouponDto, Coupon> _mapper;
         private readonly ExceptionTrigger _exceptionTrigger;

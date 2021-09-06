@@ -1,0 +1,41 @@
+name: eShop deploy
+
+on:
+  push:
+    paths:
+    - 'deploy/k8s/helm-simple/coupon/*'
+    branches: [ main ]
+
+jobs:
+  deploy-to-aks:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure Kubernetes set context
+      uses: Azure/aks-set-context@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        resource-group: 'eshop-learn-rg'
+        cluster-name: 'eshop-learn-aks'
+
+    - name: Get code from the repository
+      uses: actions/checkout@v1
+      with:
+        ref: main
+
+    - name: Helm tool installer
+      uses: Azure/setup-helm@v1
+
+    - name: Azure Login
+      uses: Azure/login@v1.1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy
+      run: >
+        helm upgrade 
+        --install eshoplearn-coupon
+        --namespace=default 
+        --set registry=${{ secrets.REGISTRY_LOGIN_SERVER }} 
+        --set imagePullPolicy=Always 
+        --set host=${{ secrets.IP_ADDRESS }} 
+        --set protocol=http './deploy/k8s/helm-simple/coupon'

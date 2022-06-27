@@ -1,18 +1,18 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM node as node-build
+FROM node:12.20.2 as node-build
 WORKDIR /web/src
 COPY src/Web/WebSPA/Client/package.json .
 COPY src/Web/WebSPA/Client/package-lock.json .
+RUN npm install -g npm@6
 RUN npm install
 COPY src/Web/WebSPA/Client .
 RUN npm run build:prod
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
 # Create this "restore-solution" section by running ./Create-DockerfileSolutionRestore.ps1, to optimize build cache reuse
@@ -25,6 +25,7 @@ COPY ["src/BuildingBlocks/WebHost/WebHost.Customization/WebHost.Customization.cs
 COPY ["src/Services/Basket/Basket.API/Basket.API.csproj", "src/Services/Basket/Basket.API/"]
 COPY ["src/Services/Catalog/Catalog.API/Catalog.API.csproj", "src/Services/Catalog/Catalog.API/"]
 COPY ["src/Services/Coupon/Coupon.API/Coupon.API.csproj", "src/Services/Coupon/Coupon.API/"]
+COPY ["tests/Services/Coupon/Coupon.API.Tests/Coupon.API.Tests.csproj", "tests/Services/Coupon/Coupon.API.Tests/"]
 COPY ["src/Services/Identity/Identity.API/Identity.API.csproj", "src/Services/Identity/Identity.API/"]
 COPY ["src/Services/Ordering/Ordering.API/Ordering.API.csproj", "src/Services/Ordering/Ordering.API/"]
 COPY ["src/Services/Ordering/Ordering.BackgroundTasks/Ordering.BackgroundTasks.csproj", "src/Services/Ordering/Ordering.BackgroundTasks/"]
@@ -34,7 +35,6 @@ COPY ["src/Services/Ordering/Ordering.SignalrHub/Ordering.SignalrHub.csproj", "s
 COPY ["src/Services/Payment/Payment.API/Payment.API.csproj", "src/Services/Payment/Payment.API/"]
 COPY ["src/Web/WebSPA/WebSPA.csproj", "src/Web/WebSPA/"]
 COPY ["src/Web/WebStatus/WebStatus.csproj", "src/Web/WebStatus/"]
-COPY ["NuGet.config", "./"]
 COPY ["docker-compose.dcproj", "./"]
 COPY ["eShop-Learn.sln", "./"]
 RUN dotnet restore "eShop-Learn.sln"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Color theming
-. <(cat ../../../../infrastructure/scripts/theme.sh)
+. <(cat ./theme.sh)
 
 if [ -f ../../deploy-application-exports.txt ]
 then

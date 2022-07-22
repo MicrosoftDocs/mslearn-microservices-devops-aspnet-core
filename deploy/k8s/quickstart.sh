@@ -3,10 +3,10 @@ defaultLocation="centralus"
 defaultRg="eshop-learn-rg"
 
 # Color theming
-. <(cat ../../../../infrastructure/scripts/theme.sh)
+. <(cat ./theme.sh)
 
 # AZ CLI check
-. <(cat ../../../../infrastructure/scripts/azure-cli-check.sh)
+. <(cat ./azure-cli-check.sh)
 
 eshopSubs=${ESHOP_SUBS}
 eshopRg=${ESHOP_RG}

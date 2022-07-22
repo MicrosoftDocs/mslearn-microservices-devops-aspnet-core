@@ -1,19 +1,19 @@
 #!/bin/bash
 
 # Color theming
-if [ -f ~/clouddrive/aspnet-learn/deploy/k8s/theme.sh ]
+if [ -f ../../../../infrastructure/scripts/theme.sh ]
 then
-  . <(cat ~/clouddrive/aspnet-learn/deploy/k8s/theme.sh)
+  . <(cat ../../../../infrastructure/scripts/theme.sh)
 fi
 
-if [ -f ~/clouddrive/aspnet-learn-temp/create-aks-exports.txt ]
+if [ -f ../../create-aks-exports.txt ]
 then
-  eval $(cat ~/clouddrive/aspnet-learn-temp/create-aks-exports.txt)
+  eval $(cat ../../create-aks-exports.txt)
 fi
 
-if [ -f ~/clouddrive/aspnet-learn-temp/create-idtag-exports.txt ]
+if [ ../../create-idtag-exports.txt ]
 then
-  eval $(cat ~/clouddrive/aspnet-learn-temp/create-idtag-exports.txt)
+  eval $(cat ../../create-idtag-exports.txt)
 fi
 
 eshopRg=${ESHOP_RG}
@@ -92,6 +92,9 @@ then
         echo "${newline}${errorStyle}ERROR creating ACR!${defaultTextStyle}${newline}"
         exit 1
     fi
+
+    echo ACR instance created!
+    echo
 fi
 
 eshopRegistry=`az acr show -n $eshopAcrName --query "loginServer" -otsv`
@@ -133,13 +136,7 @@ echo export ESHOP_IDTAG=$eshopIdTag >> create-acr-exports.txt
 echo export ESHOP_IDTAG=$eshopIdTag >> create-idtag-exports.txt
 
 echo 
-echo "${defaultTextStyle}Created Azure Container Registry \"$eshopAcrName\" in resource group \"$eshopRg\" in location \"$eshopLocation\".${newline}" 
-mv -f create-acr-exports.txt ~/clouddrive/aspnet-learn-temp/
-mv -f create-idtag-exports.txt ~/clouddrive/aspnet-learn-temp/
+echo "Created Azure Container Registry \"$eshopAcrName\" in resource group \"$eshopRg\" in location \"$eshopLocation\"." 
 
-pushd ~/clouddrive/aspnet-learn-temp > /dev/null
-echo "REGISTRY_LOGIN_SERVER: ${headingStyle}$eshopRegistry${defaultTextStyle}" >> config.txt
-echo "REGISTRY_PASSWORD: ${headingStyle}$eshopAcrPassword${defaultTextStyle}" >> config.txt
-echo "REGISTRY_USERNAME: ${headingStyle}$eshopAcrUser${defaultTextStyle}" >> config.txt
-echo "${newline}" >> config.txt
-popd  > /dev/null
+mv -f create-acr-exports.txt ../../
+mv -f create-idtag-exports.txt ../../

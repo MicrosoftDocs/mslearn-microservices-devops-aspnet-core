@@ -1,9 +1,10 @@
 #!/bin/bash
+vmSize=Standard_D2_v5
 
 # Color theming
-if [ -f ~/clouddrive/aspnet-learn/deploy/k8s/theme.sh ]
+if [ -f ../../../../infrastructure/scripts/theme.sh ]
 then
-  . <(cat ~/clouddrive/aspnet-learn/deploy/k8s/theme.sh)
+  . <(cat ../../../../infrastructure/scripts/theme.sh)
 fi
 
 eshopSubs=${ESHOP_SUBS}
@@ -76,8 +77,9 @@ exec 2>&3
 if [ -z "$existingAks" ]
 then
     echo
-    echo "Creating AKS cluster \"$eshopAksName\" in resource group \"$eshopRg\" and location \"$eshopLocation\"..."
-    aksCreateCommand="az aks create -n $eshopAksName -g $eshopRg -c $eshopNodeCount --node-vm-size Standard_D2_v3 --vm-set-type VirtualMachineScaleSets -l $eshopLocation --enable-managed-identity --generate-ssh-keys -o json"
+    echo "Creating AKS cluster \"$eshopAksName\" in resource group \"$eshopRg\" and location \"$eshopLocation\"."
+    echo "Using VM size \"$vmSize\". You can change this by modifying the value of the \"vmSize\" variable at the top of \"create-aks.sh\""
+    aksCreateCommand="az aks create -n $eshopAksName -g $eshopRg -c $eshopNodeCount --node-vm-size $vmSize --vm-set-type VirtualMachineScaleSets -l $eshopLocation --enable-managed-identity --generate-ssh-keys -o json"
     echo "${newline} > ${azCliCommandStyle}$aksCreateCommand${defaultTextStyle}${newline}"
     retry=5
     aks=`$aksCreateCommand`
@@ -112,11 +114,11 @@ az aks get-credentials -n $eshopAksName -g $eshopRg --overwrite-existing
 # Ingress controller and load balancer (LB) deployment
 
 echo
-echo "${defaultTextStyle}Installing Nginx ingress controller..."
+echo "Installing Nginx ingress controller..."
 kubectl apply -f ingress-controller/nginx-controller.yaml
 
 echo
-echo "Getting load balancer public IP"
+echo "Getting Load Balancer public IP..."
 
 while [ -z "$eshopLbIp" ]
 do
@@ -125,7 +127,7 @@ do
     eshopLbIp=$(eval $eshopLbIpCommand)
     if [ -z "$eshopLbIp" ]
     then
-        echo "Waiting for load balancer IP..."
+        echo "Load balancer wasn't ready. If this takes more than a minute or two, something is probably wrong. Trying again in 5 seconds..."
         sleep 5
     fi
 done
@@ -148,9 +150,5 @@ echo export ESHOP_LOCATION=$eshopLocation >> create-aks-exports.txt
 echo export ESHOP_AKSNAME=$eshopAksName >> create-aks-exports.txt
 echo export ESHOP_AKSNODERG=$aksNodeRG >> create-aks-exports.txt
 echo export ESHOP_LBIP=$eshopLbIp >> create-aks-exports.txt
-mv -f create-aks-exports.txt ~/clouddrive/aspnet-learn-temp/
 
-pushd ~/clouddrive/aspnet-learn-temp > /dev/null
-echo "${headingStyle}AKS and ACR Configuration values${defaultTextStyle}${newline}" > config.txt
-echo "IP_ADDRESS: ${headingStyle}$eshopLbIp${defaultTextStyle}" >> config.txt
-popd  > /dev/null
+mv -f create-aks-exports.txt ../../

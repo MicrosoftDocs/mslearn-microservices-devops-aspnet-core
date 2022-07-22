@@ -11,13 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-    - uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
     - name: Azure Kubernetes set context
       uses: Azure/aks-set-context@v2
       with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
         resource-group: 'eshop-learn-rg'
         cluster-name: 'eshop-learn-aks'
 
@@ -27,7 +24,11 @@ jobs:
         ref: main
 
     - name: Helm tool installer
-      uses: Azure/setup-helm@v3
+      uses: Azure/setup-helm@v1
+      
+    - uses: azure/login@v1.4.5
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy
       run: >

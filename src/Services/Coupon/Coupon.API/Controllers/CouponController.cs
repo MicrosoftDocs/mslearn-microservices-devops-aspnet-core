@@ -54,7 +54,7 @@
 
             var couponDto = _mapper.Translate(coupon);
 
-            _logger.LogInformation("Applying coupon {CouponCode}", code);
+            // Add LogInformation call
 
             return couponDto;
         }

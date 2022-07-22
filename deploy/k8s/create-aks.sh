@@ -152,3 +152,6 @@ echo export ESHOP_AKSNODERG=$aksNodeRG >> create-aks-exports.txt
 echo export ESHOP_LBIP=$eshopLbIp >> create-aks-exports.txt
 
 mv -f create-aks-exports.txt ../../
+
+echo "${headingStyle}AKS and ACR Configuration values${defaultTextStyle}${newline}" > ../../config.txt
+echo "IP_ADDRESS: ${headingStyle}$eshopLbIp${defaultTextStyle}" >> ../../config.txt

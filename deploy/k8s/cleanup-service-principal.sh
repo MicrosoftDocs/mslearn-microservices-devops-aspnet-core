@@ -1,10 +1,7 @@
 #!/bin/bash
 
 # Color theming
-if [ -f ~/clouddrive/aspnet-learn/deploy/k8s/theme.sh ]
-then
-  . <(cat ~/clouddrive/aspnet-learn/deploy/k8s/theme.sh)
-fi
+. <(cat ./theme.sh)
 
 echo "Deleting service principal(s)..."
 

@@ -11,19 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-    - name: Azure Login
-      uses: Azure/login@v1.4.3
+    - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Azure Kubernetes set context
-      uses: Azure/aks-set-context@v2.0
+      uses: Azure/aks-set-context@v2
       with:
         resource-group: 'eshop-learn-rg'
         cluster-name: 'eshop-learn-aks'
 
     - name: Get code from the repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
       with:
         ref: main
 

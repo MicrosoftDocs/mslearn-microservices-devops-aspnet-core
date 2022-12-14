@@ -1,8 +1,8 @@
 #!/bin/bash
 # Change this for a different location
-defaultLocation="eastus"
+defaultLocation="westeurope"
 # Change this for a different resource group name
-defaultRg="eshop-learn-rg"
+defaultRg="letsko_av-aliaksandr.letsko.altoros.com"
 
 # Color theming
 . <(cat ./theme.sh)

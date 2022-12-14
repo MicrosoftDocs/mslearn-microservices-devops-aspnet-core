@@ -1,0 +1,9 @@
+export ESHOP_RG=letsko_av-aliaksandr.letsko.altoros.com
+export ESHOP_LOCATION=westeurope
+export ESHOP_AKSNAME=eshop-learn-aks
+export ESHOP_LBIP=20.4.178.164
+export ESHOP_ACRNAME=eshoplearn20221214100008754
+export ESHOP_REGISTRY=eshoplearn20221214100008754.azurecr.io
+export ESHOP_ACRUSER=eshoplearn20221214100008754
+export ESHOP_ACRPASSWORD=xClYlReRVaN0HMhwHEO2rUwVlxPeEXxnOapT8NXWcQ+ACRABB52K
+export ESHOP_IDTAG=20221214100008754

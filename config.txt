@@ -1,0 +1,8 @@
+[37m[1mAKS and ACR Configuration values(B[m[37m
+
+IP_ADDRESS: [37m[1m20.4.178.164(B[m[37m
+REGISTRY_LOGIN_SERVER: [37m[1meshoplearn20221214100008754.azurecr.io(B[m[37m
+REGISTRY_PASSWORD: [37m[1mxClYlReRVaN0HMhwHEO2rUwVlxPeEXxnOapT8NXWcQ+ACRABB52K(B[m[37m
+REGISTRY_USERNAME: [37m[1meshoplearn20221214100008754(B[m[37m
+
+

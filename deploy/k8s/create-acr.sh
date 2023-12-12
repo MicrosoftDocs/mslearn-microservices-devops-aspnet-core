@@ -103,10 +103,13 @@ retryCount=0
 eshopRegistry=""
 
 while [ -z "$eshopRegistry" ] && [ $retryCount -lt 10 ]; do
+    exec &> /dev/null
     eshopRegistry=$(az acr show -n $eshopAcrName --query "loginServer" -otsv)
+    exec >& /dev/tty
+
     if [ -z "$eshopRegistry" ]; then
-        echo "ACR instance wasn't ready. If this takes more than a minute or two, something is probably wrong. Trying again in 5 seconds..."
-        sleep 5
+        echo "ACR instance wasn't ready. I'll keep trying for up to 5 minutes..."
+        sleep 30
         retryCount=$((retryCount+1))
     fi
 done
@@ -126,7 +129,6 @@ aksIdentityObjectId=$(az aks show -g $eshopRg -n $ESHOP_AKSNAME --query identity
 if [ ! -z "$aksIdentityObjectId" ]
 then
     acrResourceId=$(az acr show -n $eshopAcrName -g $eshopRg --query id -o tsv)
-
     az role assignment create \
         --role AcrPull \
         --assignee-object-id $aksIdentityObjectId \
